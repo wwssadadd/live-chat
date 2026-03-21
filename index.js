@@ -1,16 +1,21 @@
 import express from 'express';
-
+import path from 'path';
+import{ fileURLToPath } from 'url'
 const app = express();
-app.use(express.static('public'));
+const filename =fileURLToPath(import.meta.url);
+const dirname = path.dirname(filename);
+console.log(dirname)
+
+app.use(express.static(path.join(dirname,'public')));
+app.use(express.urlencoded({extended:true}))
+
+app.post('/join',(req,res)=>{
+      const nickname = req.body.nickname
+      res.send('welcome ' + nickname);
+
+})
 
 
-app.get('/chat', (req, res) => {
-      res.send('welcome');
-});
-app.get('/', (req, res) => {
-      res.send('welcome home');
-
-});
 
 app.listen(3000, ()=>{
     console.log('server running at http://localhost:3000')
